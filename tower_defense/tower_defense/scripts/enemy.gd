@@ -31,6 +31,7 @@ func initialize(type_data: Dictionary, difficulty: int, hp_multiplier: float, mo
 	size = type_data.get("size", 20.0)
 
 	add_to_group("enemies")
+	collision_mask = 0  # Don't collide with anything (towers detect via Area2D)
 	setup_visuals()
 	setup_collision()
 
