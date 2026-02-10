@@ -333,8 +333,8 @@ func spawn_all_waves(waves: Array):
 			var enemy = CharacterBody2D.new()
 			enemy.set_script(load("res://scripts/enemy.gd"))
 			enemy.initialize(type_data, GameManager.difficulty, hp_multiplier, enemy_speed)
-			enemy.set_path(world_path)
 			enemy_container.add_child(enemy)
+			enemy.set_path(world_path)
 			active_enemies += 1
 			enemy.tree_exiting.connect(_on_enemy_removed)
 

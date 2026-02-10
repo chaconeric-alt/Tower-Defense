@@ -31,6 +31,7 @@ func initialize(type_data: Dictionary, difficulty: int, hp_multiplier: float, mo
 	size = type_data.get("size", 20.0)
 
 	add_to_group("enemies")
+	collision_mask = 0  # Don't collide with anything (towers detect via Area2D)
 	setup_visuals()
 	setup_collision()
 
@@ -65,7 +66,7 @@ func set_path(path: PackedVector2Array):
 	world_path = path
 	path_index = 0
 	if world_path.size() > 0:
-		global_position = world_path[0]
+		position = world_path[0]
 		path_index = 1
 
 func _physics_process(delta: float):
@@ -79,12 +80,12 @@ func _physics_process(delta: float):
 	var actual_speed = 40.0 * (speed / 3.0)
 	var step = actual_speed * delta
 
-	if global_position.distance_to(target_pos) <= step:
-		global_position = target_pos
+	if position.distance_to(target_pos) <= step:
+		position = target_pos
 		path_index += 1
 	else:
-		var direction = (target_pos - global_position).normalized()
-		global_position += direction * step
+		var direction = (target_pos - position).normalized()
+		position += direction * step
 
 func take_damage(amount: float):
 	if dead:
