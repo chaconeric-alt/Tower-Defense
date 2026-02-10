@@ -10,6 +10,7 @@ position = Vector2(600, 400)
 zoom = Vector2(1, 1)
 
 [node name="GameBoard" type="Node2D" parent="."]
+position = Vector2(10, 42)
 script = ExtResource("1")
 
 [node name="UI" type="CanvasLayer" parent="."]

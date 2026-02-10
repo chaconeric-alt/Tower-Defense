@@ -175,10 +175,10 @@ func build_hud():
 	bottom_bar.anchor_bottom = 1.0
 	bottom_bar.anchor_left = 0.0
 	bottom_bar.anchor_right = 0.0
-	bottom_bar.offset_top = -50
+	bottom_bar.offset_top = -38
 	bottom_bar.offset_bottom = 0
-	bottom_bar.offset_right = 890
-	bottom_bar.custom_minimum_size = Vector2(890, 50)
+	bottom_bar.offset_right = 735
+	bottom_bar.custom_minimum_size = Vector2(735, 38)
 
 	var bot_margin = MarginContainer.new()
 	bot_margin.add_theme_constant_override("margin_left", 15)
@@ -228,7 +228,7 @@ func build_right_panel():
 	right_panel.offset_left = 740
 	right_panel.offset_right = 990
 	right_panel.offset_top = 45
-	right_panel.offset_bottom = -55
+	right_panel.offset_bottom = -43
 
 	var margin = MarginContainer.new()
 	margin.add_theme_constant_override("margin_left", 10)
