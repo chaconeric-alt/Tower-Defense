@@ -68,7 +68,7 @@ func set_path(path: PackedVector2Array):
 		global_position = world_path[0]
 		path_index = 1
 
-func _physics_process(_delta: float):
+func _physics_process(delta: float):
 	if dead:
 		return
 	if path_index >= world_path.size():
@@ -76,15 +76,15 @@ func _physics_process(_delta: float):
 		return
 
 	var target_pos = world_path[path_index]
-	var direction = (target_pos - global_position).normalized()
 	var actual_speed = 40.0 * (speed / 3.0)
+	var step = actual_speed * delta
 
-	velocity = direction * actual_speed
-
-	move_and_slide()
-
-	if global_position.distance_to(target_pos) < 5.0:
+	if global_position.distance_to(target_pos) <= step:
+		global_position = target_pos
 		path_index += 1
+	else:
+		var direction = (target_pos - global_position).normalized()
+		global_position += direction * step
 
 func take_damage(amount: float):
 	if dead:
