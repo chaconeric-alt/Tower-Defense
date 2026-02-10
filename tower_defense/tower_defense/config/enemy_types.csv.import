@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dleppmliqyyfq"
+
+[deps]
+
+files=["res://config/enemy_types.hp.translation", "res://config/enemy_types.speed.translation", "res://config/enemy_types.damage.translation", "res://config/enemy_types.currency.translation", "res://config/enemy_types.color.translation", "res://config/enemy_types.color.translation", "res://config/enemy_types.color.translation", "res://config/enemy_types.shape.translation", "res://config/enemy_types.size.translation"]
+
+source_file="res://config/enemy_types.csv"
+dest_files=["res://config/enemy_types.hp.translation", "res://config/enemy_types.speed.translation", "res://config/enemy_types.damage.translation", "res://config/enemy_types.currency.translation", "res://config/enemy_types.color.translation", "res://config/enemy_types.color.translation", "res://config/enemy_types.color.translation", "res://config/enemy_types.shape.translation", "res://config/enemy_types.size.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

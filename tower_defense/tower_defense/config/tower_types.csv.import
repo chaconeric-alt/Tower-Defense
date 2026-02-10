@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://bmcyf1c2x5juy"
+
+[deps]
+
+files=["res://config/tower_types.cost.translation", "res://config/tower_types.damage.translation", "res://config/tower_types.fire.translation", "res://config/tower_types.range.translation", "res://config/tower_types.color.translation", "res://config/tower_types.color.translation", "res://config/tower_types.color.translation", "res://config/tower_types.shape.translation", "res://config/tower_types.size.translation", "res://config/tower_types.unlock.translation", "res://config/tower_types.description.translation"]
+
+source_file="res://config/tower_types.csv"
+dest_files=["res://config/tower_types.cost.translation", "res://config/tower_types.damage.translation", "res://config/tower_types.fire.translation", "res://config/tower_types.range.translation", "res://config/tower_types.color.translation", "res://config/tower_types.color.translation", "res://config/tower_types.color.translation", "res://config/tower_types.shape.translation", "res://config/tower_types.size.translation", "res://config/tower_types.unlock.translation", "res://config/tower_types.description.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

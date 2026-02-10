@@ -1,0 +1,5 @@
+name,hp_multiplier,speed,damage,currency_multiplier,color_r,color_g,color_b,shape,size
+Scout,1.0,3.0,1,1.0,1.0,0.0,0.0,circle,20
+Runner,0.7,4.0,1,1.2,1.0,0.5,0.0,triangle,18
+Sprinter,0.5,5.0,1,1.5,1.0,0.27,0.0,square,16
+Tank,2.0,2.0,2,2.0,0.5,0.0,0.5,hexagon,28
