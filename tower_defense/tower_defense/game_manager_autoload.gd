@@ -21,14 +21,6 @@ signal game_over(won: bool)
 signal round_changed(round_num: int)
 signal wave_changed(wave_num: int, total: int)
 
-var wave_templates: Dictionary = {
-	1: [[5, 3, 1.0]],
-	2: [[8, 3, 1.0]],
-	3: [[6, 3, 1.0], [6, 4, 1.0]],
-	4: [[8, 3, 1.0], [8, 4, 1.0]],
-	5: [[10, 4, 1.0], [10, 5, 1.0]],
-	6: [[10, 4, 1.2], [12, 5, 1.2], [12, 5, 1.5]]
-}
 
 func start_game(diff: int):
 	difficulty = diff
@@ -95,7 +87,7 @@ func start_round():
 	change_state(GameState.COMBAT)
 
 func get_waves_for_round() -> Array:
-	return wave_templates.get(current_round, [[5, 3, 1.0]])
+	return ConfigManager.get_waves_for_round(current_round)
 
 func round_complete():
 	if current_round >= max_rounds:

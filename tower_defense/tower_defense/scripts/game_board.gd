@@ -312,33 +312,47 @@ func spawn_all_waves(waves: Array):
 	for wave_idx in range(waves.size()):
 		GameManager.set_wave_info(wave_idx + 1, waves.size())
 		var wave_data = waves[wave_idx]
-		var enemy_count = int(wave_data[0])
-		var enemy_speed = wave_data[1]
-		var hp_multiplier = wave_data[2]
+		var enemy_speed = wave_data.get("speed", 3.0)
+		var hp_multiplier = wave_data.get("hp_multiplier", 1.0)
+		var entries = wave_data.get("entries", [])
 
-		# Distribute enemies across paths
 		var num_paths = path_generator.paths.size()
 		if num_paths == 0:
 			continue
 
-		for i in range(enemy_count):
-			var path_idx = i % num_paths
-			var path = path_generator.paths[path_idx]
-			var world_path = path_generator.get_world_path(path, actual_cell_size)
+		# Build per-entry spawn queues with {type_data, path_idx}
+		var entry_queues: Array = []
+		for entry_idx in range(mini(entries.size(), num_paths)):
+			var queue: Array = []
+			for type_name in entries[entry_idx]:
+				var count = entries[entry_idx][type_name]
+				var type_data = ConfigManager.get_enemy_type_by_name(type_name)
+				if type_data.size() > 0:
+					for _j in range(count):
+						queue.append({"type": type_data, "path_idx": entry_idx})
+			entry_queues.append(queue)
 
-			# Pick random enemy type
-			var enemy_types = ConfigManager.get_enemy_types()
-			var type_data = enemy_types[randi() % enemy_types.size()]
+		# Interleave spawning across entry points
+		var max_queue_size = 0
+		for q in entry_queues:
+			max_queue_size = maxi(max_queue_size, q.size())
 
-			var enemy = CharacterBody2D.new()
-			enemy.set_script(load("res://scripts/enemy.gd"))
-			enemy.initialize(type_data, GameManager.difficulty, hp_multiplier, enemy_speed)
-			enemy_container.add_child(enemy)
-			enemy.set_path(world_path)
-			active_enemies += 1
-			enemy.tree_exiting.connect(_on_enemy_removed)
+		for i in range(max_queue_size):
+			for entry_idx in range(entry_queues.size()):
+				if i < entry_queues[entry_idx].size():
+					var spawn_info = entry_queues[entry_idx][i]
+					var path = path_generator.paths[spawn_info.path_idx]
+					var world_path = path_generator.get_world_path(path, actual_cell_size)
 
-			await get_tree().create_timer(0.5).timeout
+					var enemy = CharacterBody2D.new()
+					enemy.set_script(load("res://scripts/enemy.gd"))
+					enemy.initialize(spawn_info.type, GameManager.difficulty, hp_multiplier, enemy_speed)
+					enemy_container.add_child(enemy)
+					enemy.set_path(world_path)
+					active_enemies += 1
+					enemy.tree_exiting.connect(_on_enemy_removed)
+
+					await get_tree().create_timer(0.5).timeout
 
 		# Brief pause between waves
 		if wave_idx < waves.size() - 1:
