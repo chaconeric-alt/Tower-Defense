@@ -176,11 +176,7 @@ func cancel_placing():
 
 func get_mouse_local_pos() -> Vector2:
 	# Convert global mouse position to this node's local coordinate space
-	var viewport = get_viewport()
-	var mouse_screen = viewport.get_mouse_position()
-	# The canvas_transform accounts for Camera2D offset
-	var global_mouse = get_canvas_transform().affine_inverse() * mouse_screen
-	return global_mouse
+	return to_local(get_global_mouse_position())
 
 var _was_left_pressed: bool = false
 var _was_right_pressed: bool = false
