@@ -34,8 +34,26 @@ var game_over_label: Label = null
 # HUD container
 var hud_container: Control = null
 
+# Layout values computed from grid config
+var grid_px: int = 720
+var board_x: int = 10
+var viewport_w: int = 1000
+var viewport_h: int = 800
+
 func _ready():
 	await get_tree().process_frame
+
+	# Compute layout from grid config (must match game_board.gd constants)
+	var grid_size = mini(ConfigManager.get_game_setting("grid_size", 9), 20)
+	var cell_size = ConfigManager.get_game_setting("cell_size", 80)
+	grid_px = grid_size * cell_size
+	board_x = 10
+	var top_bar_h = 40
+	var bottom_bar_h = 38
+	var panel_gap = 20
+	var right_panel_w = 250
+	viewport_w = board_x + grid_px + panel_gap + right_panel_w
+	viewport_h = top_bar_h + 2 + grid_px + bottom_bar_h
 
 	build_difficulty_screen()
 	build_hud()
@@ -171,14 +189,15 @@ func build_hud():
 	var bot_style = StyleBoxFlat.new()
 	bot_style.bg_color = Color(0.1, 0.1, 0.1, 0.9)
 	bottom_bar.add_theme_stylebox_override("panel", bot_style)
+	var bottom_bar_w = board_x + grid_px + 5
 	bottom_bar.anchor_top = 1.0
 	bottom_bar.anchor_bottom = 1.0
 	bottom_bar.anchor_left = 0.0
 	bottom_bar.anchor_right = 0.0
 	bottom_bar.offset_top = -38
 	bottom_bar.offset_bottom = 0
-	bottom_bar.offset_right = 735
-	bottom_bar.custom_minimum_size = Vector2(735, 38)
+	bottom_bar.offset_right = bottom_bar_w
+	bottom_bar.custom_minimum_size = Vector2(bottom_bar_w, 38)
 
 	var bot_margin = MarginContainer.new()
 	bot_margin.add_theme_constant_override("margin_left", 15)
@@ -221,12 +240,13 @@ func build_right_panel():
 	style.border_width_left = 2
 	right_panel.add_theme_stylebox_override("panel", style)
 
+	var panel_left = board_x + grid_px + 20
 	right_panel.anchor_left = 0.0
 	right_panel.anchor_right = 0.0
 	right_panel.anchor_top = 0.0
 	right_panel.anchor_bottom = 1.0
-	right_panel.offset_left = 740
-	right_panel.offset_right = 990
+	right_panel.offset_left = panel_left
+	right_panel.offset_right = viewport_w
 	right_panel.offset_top = 45
 	right_panel.offset_bottom = -43
 
