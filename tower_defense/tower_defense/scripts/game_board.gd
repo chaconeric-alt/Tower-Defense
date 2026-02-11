@@ -16,9 +16,38 @@ var ghost_tower: Node2D = null
 var spawning: bool = false
 var active_enemies: int = 0
 
+const BOARD_MARGIN_LEFT: int = 10
+const TOP_BAR_HEIGHT: int = 40
+const BOTTOM_BAR_HEIGHT: int = 38
+const RIGHT_PANEL_WIDTH: int = 250
+const PANEL_GAP: int = 20
+const MAX_GRID_SIZE: int = 20
+
 func _ready():
-	actual_grid_size = ConfigManager.get_game_setting("grid_size", 9)
+	actual_grid_size = mini(ConfigManager.get_game_setting("grid_size", 9), MAX_GRID_SIZE)
 	actual_cell_size = ConfigManager.get_game_setting("cell_size", 80)
+
+	# Calculate viewport size from grid
+	var grid_px = actual_grid_size * actual_cell_size
+	var viewport_w = BOARD_MARGIN_LEFT + grid_px + PANEL_GAP + RIGHT_PANEL_WIDTH
+	var viewport_h = TOP_BAR_HEIGHT + 2 + grid_px + BOTTOM_BAR_HEIGHT
+
+	# Resize viewport and window
+	get_tree().root.content_scale_size = Vector2i(viewport_w, viewport_h)
+	DisplayServer.window_set_size(Vector2i(viewport_w, viewport_h))
+
+	# Center window on screen
+	var screen_size = DisplayServer.screen_get_size()
+	var win_pos = (screen_size - Vector2i(viewport_w, viewport_h)) / 2
+	DisplayServer.window_set_position(win_pos)
+
+	# Reposition camera to center of new viewport
+	var camera = get_node_or_null("../Camera2D")
+	if camera:
+		camera.position = Vector2(viewport_w / 2.0, viewport_h / 2.0)
+
+	# Position board below top bar
+	position = Vector2(BOARD_MARGIN_LEFT, TOP_BAR_HEIGHT + 2)
 
 	grid_container = Node2D.new()
 	grid_container.name = "GridContainer"
